@@ -2,8 +2,8 @@
 
 include_once 'classes/models/User.class.php';
 include_once 'classes/util/Token.class.php';
-include_once 'classes/views/Response.class.php';
-include_once 'classes/views/TokenResponse.class.php';
+include_once 'classes/responses/Response.class.php';
+include_once 'classes/responses/TokenResponse.class.php';
 
 $user = new User($db);
 

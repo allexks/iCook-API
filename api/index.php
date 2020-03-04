@@ -8,7 +8,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require_once "classes/util/Database.class.php";
-require_once "classes/views/Response.class.php";
+require_once "classes/responses/Response.class.php";
 
 // Database connection
 

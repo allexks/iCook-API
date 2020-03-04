@@ -1,6 +1,6 @@
 <?php
 
-require_once "classes/views/Response.class.php";
+require_once "classes/responses/Response.class.php";
 
 /**
  * An API response with a data array.

@@ -1,8 +1,8 @@
 <?php
 
 require_once "classes/util/Token.class.php";
-require_once "classes/views/Response.class.php";
-require_once "classes/views/DataResponse.class.php";
+require_once "classes/responses/Response.class.php";
+require_once "classes/responses/DataResponse.class.php";
 
 $data = json_decode(file_get_contents("php://input"));
 $token = $data->token ?? "";
