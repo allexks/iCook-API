@@ -19,6 +19,8 @@ class Settings {
 
     const JWT_ALGORITHM = JWT_ALGORITHM;
 
+    const JWT_EXP_MINUTES = JWT_EXP_MINUTES;
+
     const JWT_ARRAY = JWT_ARRAY;
 }
 
