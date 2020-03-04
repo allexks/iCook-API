@@ -5,7 +5,15 @@ include_once 'libs/php-jwt-master/src/JWT.php';
 use \Firebase\JWT\JWT;
 
 class Token {
-    public static function validate($token) {
+
+    public static function validate() {
+
+        $token = Token::getBearerToken();
+
+        if (!$token) {
+            return false;
+        }
+
         try {
             $decoded = JWT::decode(
                 $token,
@@ -13,6 +21,7 @@ class Token {
                 Token::getAlgorithmArr()
             );
             return $decoded->data;
+
         } catch (Exception $exception) {
             return false;
         }
@@ -24,6 +33,11 @@ class Token {
 
         $token = JWT::encode($token_arr, Token::getSecretKey());
         return $token;
+    }
+
+    private static function getBearerToken() {
+        $auth_header = apache_request_headers()["Authorization"] ?? "";
+        return ltrim(trim($auth_header, "Bearer"));
     }
 
     private static function getSecretKey() {
