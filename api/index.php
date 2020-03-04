@@ -25,25 +25,14 @@ if (!$db) {
 $URI_PATH = explode("/", $_SERVER["REQUEST_URI"]);
 $endpoint = $URI_PATH[2] ?? "";
 
-$modules_dir = "modules";
+$endpoints_dir = "endpoints";
+$endpoints_filename = "$endpoints_dir/$endpoint.php";
 
-switch ($endpoint) {
-    case "create_user":
-        include "$modules_dir/create_user.php";
-        break;
-    case "login":
-        include "$modules_dir/login.php";
-        break;
-    case "update_user":
-        include "$modules_dir/update_user.php";
-        break;
-    case "validate_token":
-        include "$modules_dir/validate_token.php";
-        break;
-
-    default:
-        $response = new Response(404, "Requested endpoint is not available.");
-        $response->send();
+if (file_exists($endpoints_filename)) {
+    include $endpoints_filename;
+} else {
+    $response = new Response(404, "Requested endpoint is not available.");
+    $response->send();
 }
 
 ?>
