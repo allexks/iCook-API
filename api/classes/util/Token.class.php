@@ -31,7 +31,7 @@ class Token {
     }
 
     private static function getAlgorithmArr() {
-        return array(Settings::JWT_ALGORITHM);
+        return [Settings::JWT_ALGORITHM];
     }
 }
 

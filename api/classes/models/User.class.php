@@ -75,12 +75,12 @@ class User {
     }
 
     public function toArray() {
-        return array(
+        return [
             "id" => $this->id,
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "email" => $this->email,
-       );
+       ];
     }
 
     public function update() {

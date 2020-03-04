@@ -20,7 +20,7 @@ class Response {
     }
 
     protected function toArray() {
-        return array("message" => $this->message);
+        return ["message" => $this->message];
     }
 
     private function jsonEncoded() {
