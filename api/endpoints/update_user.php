@@ -23,13 +23,13 @@ $user->email = $post_data->email ?? "";
 $user->password = $post_data->password ?? null;
 $user->id = $token_data->id;
 
-if ($user->update()) {
-    $new_token = Token::issueNew($user);
-    $response = new TokenResponse("User was updated.", $new_token);
-    $response->send();
-} else {
+if (!$user->update()) {
     $response = new Response(401, "Unable to update user.");
     $response->send();
 }
+
+$new_token = Token::issueNew($user);
+$response = new TokenResponse("User was updated.", $new_token);
+$response->send();
 
 ?>

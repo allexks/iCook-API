@@ -9,12 +9,12 @@ $token = $data->token ?? "";
 
 $token_data = Token::validate($token);
 
-if ($token_data) {
-    $response = new DataResponse("Access granted.", $token_data);
-    $response->send();
-} else {
+if (!$token_data) {
     $response = new Response(401, "Access denied.");
     $response->send();
 }
+
+$response = new DataResponse("Access granted.", $token_data);
+$response->send();
 
 ?>

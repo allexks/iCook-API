@@ -11,13 +11,13 @@ $user = new User($db);
 $user->email = $data->email ?? "";
 $email_exists = $user->emailExists();
 
-if ($email_exists && password_verify($data->password, $user->password)) {
-    $token = Token::issueNew($user);
-    $response = new TokenResponse("Successful login", $token);
-    $response->send();
-} else {
+if (!$email_exists || !password_verify($data->password, $user->password)) {
     $response = new Response(401, "Failed login.");
     $response->send();
 }
+
+$token = Token::issueNew($user);
+$response = new TokenResponse("Successful login", $token);
+$response->send();
 
 ?>

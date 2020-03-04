@@ -59,19 +59,18 @@ class User {
 
         $rows_count = $stmt->rowCount();
 
-        if ($rows_count > 0) {
-
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $this->id = $row['id'];
-            $this->firstname = $row['firstname'];
-            $this->lastname = $row['lastname'];
-            $this->password = $row['password'];
-
-            return true;
+        if ($rows_count <= 0) {
+            return false;
         }
 
-        return false;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->id = $row['id'];
+        $this->firstname = $row['firstname'];
+        $this->lastname = $row['lastname'];
+        $this->password = $row['password'];
+
+        return true;
     }
 
     public function toArray() {

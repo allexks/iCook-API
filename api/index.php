@@ -26,13 +26,13 @@ $URI_PATH = explode("/", $_SERVER["REQUEST_URI"]);
 $endpoint = $URI_PATH[2] ?? "";
 
 $endpoints_dir = "endpoints";
-$endpoints_filename = "$endpoints_dir/$endpoint.php";
+$endpoint_filename = "$endpoints_dir/$endpoint.php";
 
-if (file_exists($endpoints_filename)) {
-    include $endpoints_filename;
-} else {
+if (!file_exists($endpoint_filename)) {
     $response = new Response(404, "Requested endpoint is not available.");
     $response->send();
 }
+
+include $endpoint_filename;
 
 ?>

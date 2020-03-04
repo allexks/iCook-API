@@ -22,10 +22,9 @@ if (
 if (!$user->create()) {
     $response = new Response(500, "Unable to create new user.");
     $response->send();
-
-} else {
-    $response = new Response(200, "Successfully created new user.");
-    $response->send();
 }
+
+$response = new Response(200, "Successfully created new user.");
+$response->send();
 
 ?>
