@@ -19,6 +19,11 @@ if (
     $response->send();
 }
 
+if ($user->emailExists()) {
+    $response = new Response(400, "User with such e-mail alredy exists!");
+    $response->send();
+}
+
 if (!$user->create()) {
     $response = new Response(500, "Unable to create new user.");
     $response->send();
