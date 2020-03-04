@@ -20,7 +20,7 @@ if (!$token_data) {
 $user->firstname = $post_data->firstname ?? "";
 $user->lastname = $post_data->lastname ?? "";
 $user->email = $post_data->email ?? "";
-$user->password = $post_data->password;
+$user->password = $post_data->password ?? null;
 $user->id = $token_data->id;
 
 if ($user->update()) {
