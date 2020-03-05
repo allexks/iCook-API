@@ -37,6 +37,9 @@ class Token {
 
     private static function getBearerToken() {
         $auth_header = apache_request_headers()["Authorization"] ?? "";
+        if (!preg_match('/^Bearer/', $auth_header)) {
+            return "";
+        }
         return ltrim(trim($auth_header, "Bearer"));
     }
 
