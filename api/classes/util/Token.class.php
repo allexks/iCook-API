@@ -29,6 +29,7 @@ class Token {
 
     public static function issueNew($user) {
         $token_arr = Settings::JWT_ARRAY;
+        $token_arr["iat"] = time();
         $token_arr["data"] = $user->toArray();
 
         $token = JWT::encode($token_arr, Token::getSecretKey());
