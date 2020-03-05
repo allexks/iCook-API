@@ -17,12 +17,6 @@ if (!$email_exists || !password_verify($data->password, $user->password)) {
 }
 
 $token = Token::issueNew($user);
-
-if (!$token) {
-    $response = new Response(500, "Could not issue new token.");
-    $response->send();
-}
-
 $response = new TokenResponse("Successful login", $token);
 $response->send();
 

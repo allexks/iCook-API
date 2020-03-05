@@ -65,10 +65,10 @@ class User {
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->id = $row["id"];
-        $this->firstname = $row["firstname"];
-        $this->lastname = $row["lastname"];
-        $this->password = $row["password"];
+        $this->id = $row['id'];
+        $this->firstname = $row['firstname'];
+        $this->lastname = $row['lastname'];
+        $this->password = $row['password'];
 
         return true;
     }
@@ -99,64 +99,19 @@ class User {
         $this->lastname = htmlspecialchars(strip_tags($this->lastname));
         $this->email = htmlspecialchars(strip_tags($this->email));
 
-        $stmt->bindParam(":firstname", $this->firstname);
-        $stmt->bindParam(":lastname", $this->lastname);
-        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(':firstname', $this->firstname);
+        $stmt->bindParam(':lastname', $this->lastname);
+        $stmt->bindParam(':email', $this->email);
 
         if(!empty($this->password)){
             $this->password = htmlspecialchars(strip_tags($this->password));
             $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
-            $stmt->bindParam(":password", $password_hash);
+            $stmt->bindParam(':password', $password_hash);
         }
 
-        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(':id', $this->id);
 
         return $stmt->execute();
-    }
-
-    public function saveNewToken($token, $now, $exp) {
-        $query = "UPDATE {$this->db_tablename}
-            SET
-                modified = FROM_UNIXTIME(:modified),
-                token = :token,
-                token_exp = FROM_UNIXTIME(:token_exp)
-            WHERE id = :id";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":modified", $now);
-        $stmt->bindParam(":token", $token);
-        $stmt->bindParam(":token_exp", $exp);
-        $stmt->bindParam(":id", $this->id);
-
-        return $stmt->execute();
-    }
-
-    public function verifyFromToken($token) {
-        $query = "SELECT *, UNIX_TIMESTAMP(`token_exp`) AS timestamp_exp
-            FROM {$this->db_tablename}
-            WHERE id = ?";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-
-        if ($stmt->rowCount() <= 0) {
-            error_log("[!!] WARNING: No rows returned for user.id={$this->id}");
-            return false;
-        }
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($row["token"] != $token || time() > $row["timestamp_exp"]) {
-            return false;
-        }
-
-        $this->firstname = $row["firstname"];
-        $this->lastname = $row["lastname"];
-        $this->password = $row["password"];
-
-        return true;
     }
 }
 

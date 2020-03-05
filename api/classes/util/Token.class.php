@@ -6,7 +6,7 @@ use \Firebase\JWT\JWT;
 
 class Token {
 
-    public static function validate($user) {
+    public static function validate() {
 
         $token = Token::getBearerToken();
 
@@ -20,18 +20,6 @@ class Token {
                 Token::getSecretKey(),
                 Token::getAlgorithmArr()
             );
-
-            if (!$decoded) {
-                return false;
-            }
-
-            $user->id = $decoded->data->id;
-            $isValid = $user->verifyFromToken($token);
-
-            if (!$isValid) {
-                return false;
-            }
-
             return $decoded->data;
 
         } catch (Exception $exception) {
@@ -40,20 +28,10 @@ class Token {
     }
 
     public static function issueNew($user) {
-        $now = time();
-        $exp = $now + (Settings::JWT_EXP_MINUTES * 60);
-
         $token_arr = Settings::JWT_ARRAY;
-        $token_arr["iat"] = $now;
-        $token_arr["exp"] = $exp;
         $token_arr["data"] = $user->toArray();
 
         $token = JWT::encode($token_arr, Token::getSecretKey());
-
-        if (!$user->saveNewToken($token, $now, $exp)) {
-            return false;
-        }
-
         return $token;
     }
 
