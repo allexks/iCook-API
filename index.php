@@ -24,9 +24,10 @@ if (!$db) {
 
 $URI_PATH = explode("/", $_SERVER["REQUEST_URI"]);
 $endpoint = $URI_PATH[2] ?? "";
+$method = $_SERVER["REQUEST_METHOD"];
 
 $endpoints_dir = "endpoints";
-$endpoint_filename = "$endpoints_dir/$endpoint.php";
+$endpoint_filename = "$endpoints_dir/$method/$endpoint.php";
 
 if (!file_exists($endpoint_filename)) {
     $response = new Response(404, "Requested endpoint is not available.");
