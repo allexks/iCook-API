@@ -75,7 +75,7 @@ class User {
 
     public function toArray() {
         return [
-            "id" => $this->id,
+            "id" => (int)$this->id,
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "email" => $this->email,
