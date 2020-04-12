@@ -65,7 +65,7 @@ class User {
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->id = $row['id'];
+        $this->id = (int)$row['id'];
         $this->firstname = $row['firstname'];
         $this->lastname = $row['lastname'];
         $this->password = $row['password'];
