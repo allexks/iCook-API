@@ -27,6 +27,17 @@ class Dish {
         ];
     }
 
+    public function randomId() {
+        $query = "SELECT id FROM {$this->db_tablename} ORDER BY RAND() LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $id = (int)$row["id"];
+        $this->id = $id;
+        return $id;
+    }
+
     public function fetch() {
         $query = "SELECT * FROM {$this->db_tablename}
                 WHERE id = :id
@@ -45,10 +56,10 @@ class Dish {
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $this->id = (int)$row['id'];
-        $this->name = $row['name'];
-        $this->description = $row['description'];
-        $this->image_url = $row['image_url'];
+        $this->id = (int)$row["id"];
+        $this->name = $row["name"];
+        $this->description = $row["description"];
+        $this->image_url = $row["image_url"];
 
         return true;
     }
