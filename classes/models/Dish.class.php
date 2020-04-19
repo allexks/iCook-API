@@ -1,5 +1,7 @@
 <?php
 
+require_once "classes/models/Recipe.class.php";
+
 /**
  * Dish.
  */
@@ -9,6 +11,8 @@ class Dish {
     public $name;
     public $description;
     public $image_url;
+
+    public $recipes;
 
     private $conn;
     private $db_tablename;
@@ -23,7 +27,10 @@ class Dish {
             "id" => (int)$this->id,
             "name" => $this->name,
             "description" => $this->description,
-            "image_url" => $this->image_url
+            "image_url" => $this->image_url,
+            "recipes" => array_map(function ($r) {
+                return $r->toArray();
+            }, $this->recipes),
         ];
     }
 
@@ -61,9 +68,14 @@ class Dish {
         $this->description = $row["description"];
         $this->image_url = $row["image_url"];
 
+        $this->fetchAllRecipes();
+
         return true;
     }
-}
 
+    public function fetchAllRecipes() {
+        $this->recipes = Recipe::fetchAllForDishId($this->conn, $this->id);
+    }
+}
 
 ?>
