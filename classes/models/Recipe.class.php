@@ -52,7 +52,9 @@ class Recipe {
     }
 
     public function fetch() {
-        $query = "SELECT * FROM {self::DB_TABLENAME}
+        $table = self::DB_TABLENAME;
+
+        $query = "SELECT * FROM $table
                 WHERE id = :id
                 LIMIT 0,1";
 
@@ -86,8 +88,9 @@ class Recipe {
     }
 
     public static function fetchAllForDishId($conn, $dish_id) {
-        $query = "SELECT * FROM {self::DB_TABLENAME}
-                WHERE dish_id = :id";
+        $table = self::DB_TABLENAME;
+
+        $query = "SELECT * FROM $table WHERE dish_id = :id";
 
         $stmt = $conn->prepare($query);
         $dish_id = htmlspecialchars(strip_tags($dish_id));

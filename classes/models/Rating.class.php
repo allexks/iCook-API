@@ -29,9 +29,9 @@ class Rating {
     }
 
     public function fetch() {
-        $query = "SELECT * FROM {self::DB_TABLENAME}
-                WHERE id = :id
-                LIMIT 0,1";
+        $table = self::DB_TABLENAME;
+
+        $query = "SELECT * FROM $table WHERE id = :id LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -56,8 +56,9 @@ class Rating {
     }
 
     public static function fetchAllForRecipeId($conn, $recipe_id) {
-        $query = "SELECT * FROM {self::DB_TABLENAME}
-                WHERE recipe_id = :id";
+        $table = self::DB_TABLENAME;
+
+        $query = "SELECT * FROM $table WHERE recipe_id = :id";
 
         $stmt = $conn->prepare($query);
         $recipe_id = htmlspecialchars(strip_tags($recipe_id));
