@@ -113,7 +113,7 @@ class Recipe {
             $recipe->duration = (int)$row["duration"];
             $recipe->steps = $row["steps"];
             $recipe->fetchAllRatings();
-            $result[] = $rating;
+            $result[] = $recipe;
         }
 
         return $result;
