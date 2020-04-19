@@ -14,7 +14,7 @@ $recipe = new Recipe($db);
 $recipe->id = $recipe_id;
 
 if (!$recipe->fetch()) {
-    $response = new Response(400, "No recipe for the given id exists.");
+    $response = new Response(404, "No recipe for the given id exists.");
     $response->send();
 }
 

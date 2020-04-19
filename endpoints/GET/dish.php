@@ -14,7 +14,7 @@ $dish = new Dish($db);
 $dish->id = $dish_id;
 
 if (!$dish->fetch()) {
-    $response = new Response(400, "No dish for the given id exists.");
+    $response = new Response(404, "No dish for the given id exists.");
     $response->send();
 }
 
