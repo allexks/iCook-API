@@ -12,11 +12,10 @@ class Rating {
     public $comment;
 
     private $conn;
-    private $db_tablename;
+    const DB_TABLENAME = "ratings";
 
     public function __construct($db) {
         $this->conn = $db;
-        $this->db_tablename = "ratings";
     }
 
     public function toArray() {
@@ -30,7 +29,7 @@ class Rating {
     }
 
     public function fetch() {
-        $query = "SELECT * FROM {$this->db_tablename}
+        $query = "SELECT * FROM {self::DB_TABLENAME}
                 WHERE id = :id
                 LIMIT 0,1";
 
@@ -57,11 +56,11 @@ class Rating {
     }
 
     public static function fetchAllForRecipeId($conn, $recipe_id) {
-        $query = "SELECT * FROM {$this->db_tablename}
+        $query = "SELECT * FROM {self::DB_TABLENAME}
                 WHERE recipe_id = :id";
 
         $stmt = $conn->prepare($query);
-        $this->id = htmlspecialchars(strip_tags($recipe_id));
+        $recipe_id = htmlspecialchars(strip_tags($recipe_id));
         $stmt->bindParam(":id", $recipe_id);
         $stmt->execute();
 

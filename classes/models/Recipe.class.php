@@ -17,11 +17,10 @@ class Recipe {
     public $ratings;
 
     private $conn;
-    private $db_tablename;
+    const DB_TABLENAME = "recipes";
 
     public function __construct($db) {
         $this->conn = $db;
-        $this->db_tablename = "recipes";
     }
 
     public function toArray() {
@@ -53,7 +52,7 @@ class Recipe {
     }
 
     public function fetch() {
-        $query = "SELECT * FROM {$this->db_tablename}
+        $query = "SELECT * FROM {self::DB_TABLENAME}
                 WHERE id = :id
                 LIMIT 0,1";
 
@@ -87,11 +86,11 @@ class Recipe {
     }
 
     public static function fetchAllForDishId($conn, $dish_id) {
-        $query = "SELECT * FROM {$this->db_tablename}
+        $query = "SELECT * FROM {self::DB_TABLENAME}
                 WHERE dish_id = :id";
 
         $stmt = $conn->prepare($query);
-        $this->id = htmlspecialchars(strip_tags($dish_id));
+        $dish_id = htmlspecialchars(strip_tags($dish_id));
         $stmt->bindParam(":id", $dish_id);
         $stmt->execute();
 
