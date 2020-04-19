@@ -109,6 +109,7 @@ class Recipe {
             $recipe->date_created = (int)$row["date_created"];
             $recipe->duration = (int)$row["duration"];
             $recipe->steps = $row["steps"];
+            $recipe->fetchAllRatings();
             $result[] = $rating;
         }
 
