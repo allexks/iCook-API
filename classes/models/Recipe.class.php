@@ -60,7 +60,9 @@ class Recipe {
         $table = self::DB_TABLENAME;
         $userstable = User::DB_TABLENAME;
 
-        $query = "SELECT r.*, u.firstname, u.lastname, u.email
+        $query = "SELECT
+                    r.*, u.firstname, u.lastname, u.email,
+                    UNIX_TIMESTAMP(r.date_created) AS recipe_date
                   FROM $table r
                   JOIN $userstable u
                   ON r.user_id = u.id
@@ -83,7 +85,7 @@ class Recipe {
         $this->id = (int)$row["id"];
         $this->dish_id = (int)$row["dish_id"];
         $this->user_id = (int)$row["user_id"];
-        $this->date_created = (int)$row["date_created"];
+        $this->date_created = (int)$row["recipe_date"];
         $this->duration = (int)$row["duration"];
         $this->steps = $row["steps"];
 
@@ -103,7 +105,9 @@ class Recipe {
         $table = self::DB_TABLENAME;
         $userstable = User::DB_TABLENAME;
 
-        $query = "SELECT r.*, u.firstname, u.lastname, u.email
+        $query = "SELECT
+                    r.*, u.firstname, u.lastname, u.email,
+                    UNIX_TIMESTAMP(r.date_created) AS recipe_date
                   FROM $table r
                   JOIN $userstable u
                   ON r.user_id = u.id
@@ -126,7 +130,7 @@ class Recipe {
             $recipe->id = (int)$row["id"];
             $recipe->dish_id = (int)$row["dish_id"];
             $recipe->user_id = (int)$row["user_id"];
-            $recipe->date_created = (int)$row["date_created"];
+            $recipe->date_created = (int)$row["recipe_date"];
             $recipe->duration = (int)$row["duration"];
             $recipe->steps = $row["steps"];
             $recipe->fetchAllRatings();
