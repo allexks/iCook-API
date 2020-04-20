@@ -14,20 +14,21 @@ class User {
     public $password;
 
     private $conn;
-    private $db_tablename;
+    const DB_TABLENAME = Settings::DB_USERS_TABLENAME;
 
     public function __construct($db) {
         $this->conn = $db;
-        $this->db_tablename = Settings::DB_USERS_TABLENAME;
     }
 
     public function create() {
-        $query = "INSERT INTO {$this->db_tablename}
-            SET
-                firstname = :firstname,
-                lastname = :lastname,
-                email = :email,
-                password = :password";
+        $tablename = self::DB_TABLENAME;
+
+        $query = "INSERT INTO $tablename
+                  SET
+                      firstname = :firstname,
+                      lastname = :lastname,
+                      email = :email,
+                      password = :password";
 
         $stmt = $this->conn->prepare($query);
 
@@ -47,10 +48,12 @@ class User {
     }
 
     public function emailExists() {
+        $tablename = self::DB_TABLENAME;
+
         $query = "SELECT id, firstname, lastname, password
-                FROM {$this->db_tablename}
-                WHERE email = ?
-                LIMIT 0,1";
+                  FROM $tablename
+                  WHERE email = ?
+                  LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $this->email = htmlspecialchars(strip_tags($this->email));
@@ -83,15 +86,17 @@ class User {
     }
 
     public function update() {
+        $tablename = self::DB_TABLENAME;
+
         $password_set = !empty($this->password) ? ", password = :password" : "";
 
-        $query = "UPDATE {$this->db_tablename}
-                SET
-                    firstname = :firstname,
-                    lastname = :lastname,
-                    email = :email
-                    {$password_set}
-                WHERE id = :id";
+        $query = "UPDATE $tablename
+                  SET
+                      firstname = :firstname,
+                      lastname = :lastname,
+                      email = :email
+                      {$password_set}
+                  WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 

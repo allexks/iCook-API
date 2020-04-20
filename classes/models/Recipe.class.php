@@ -1,6 +1,7 @@
 <?php
 
 require_once "classes/models/Rating.class.php";
+require_once "classes/models/User.class.php";
 
 /**
  * Recipe.
@@ -15,6 +16,9 @@ class Recipe {
     public $steps;
 
     public $ratings;
+
+    public $user_names;
+    public $user_email;
 
     private $conn;
     const DB_TABLENAME = "recipes";
@@ -31,10 +35,11 @@ class Recipe {
             "date_created" => (int)$this->date_created,
             "duration" => (int)$this->duration,
             "steps" => $this->steps,
+            "user_names" => $this->user_names,
+            "user_email" => $this->user_email,
             "ratings" => array_map(function ($r) {
                 return $r->toArray();
             }, $this->ratings),
-            "avg_rating" => (float)$this->getAvgRating(),
         ];
     }
 
@@ -53,10 +58,14 @@ class Recipe {
 
     public function fetch() {
         $table = self::DB_TABLENAME;
+        $userstable = User::DB_TABLENAME;
 
-        $query = "SELECT * FROM $table
-                WHERE id = :id
-                LIMIT 0,1";
+        $query = "SELECT r.*, u.firstname, u.lastname, u.email
+                  FROM $table r
+                  JOIN $userstable u
+                  ON r.user_id = u.id
+                  WHERE id = :id
+                  LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -80,6 +89,9 @@ class Recipe {
 
         $this->fetchAllRatings();
 
+        $recipe->user_names = $row["firstname"] . $row["lastname"];
+        $recipe->user_email = $row["email"];
+
         return true;
     }
 
@@ -89,8 +101,13 @@ class Recipe {
 
     public static function fetchAllForDishId($conn, $dish_id) {
         $table = self::DB_TABLENAME;
+        $userstable = User::DB_TABLENAME;
 
-        $query = "SELECT * FROM $table WHERE dish_id = :id";
+        $query = "SELECT r.*, u.firstname, u.lastname, u.email
+                  FROM $table r
+                  JOIN $userstable u
+                  ON r.user_id = u.id
+                  WHERE dish_id = :id";
 
         $stmt = $conn->prepare($query);
         $dish_id = htmlspecialchars(strip_tags($dish_id));
@@ -113,6 +130,8 @@ class Recipe {
             $recipe->duration = (int)$row["duration"];
             $recipe->steps = $row["steps"];
             $recipe->fetchAllRatings();
+            $recipe->user_names = $row["firstname"] . $row["lastname"];
+            $recipe->user_email = $row["email"];
             $result[] = $recipe;
         }
 
