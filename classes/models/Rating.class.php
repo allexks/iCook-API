@@ -1,5 +1,7 @@
 <?php
 
+require_once "classes/models/User.class.php";
+
 /**
  * Rating.
  */
@@ -10,6 +12,9 @@ class Rating {
     public $user_id;
     public $rating;
     public $comment;
+
+    public $user_names;
+    public $user_email;
 
     private $conn;
     const DB_TABLENAME = "ratings";
@@ -25,13 +30,21 @@ class Rating {
             "user_id" => (int)$this->user_id,
             "rating" => (int)$this->rating,
             "comment" => $this->comment,
+            "user_names" => $this->user_names,
+            "user_email" => $this->user_email,
         ];
     }
 
     public function fetch() {
         $table = self::DB_TABLENAME;
+        $userstable = User::DB_TABLENAME;
 
-        $query = "SELECT * FROM $table WHERE id = :id LIMIT 0,1";
+        $query = "SELECT r.*, u.firstname, u.lastname, u.email
+                  FROM $table r
+                  JOIN $userstable u
+                  ON r.user_id = u.id
+                  WHERE id = :id
+                  LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -51,14 +64,21 @@ class Rating {
         $this->user_id = (int)$row["user_id"];
         $this->rating = (int)$row["rating"];
         $this->comment = $row["comment"];
+        $this->user_names = $row["firstname"] . $row["lastname"];
+        $this->user_email = $row["email"];
 
         return true;
     }
 
     public static function fetchAllForRecipeId($conn, $recipe_id) {
         $table = self::DB_TABLENAME;
+        $userstable = User::DB_TABLENAME;
 
-        $query = "SELECT * FROM $table WHERE recipe_id = :id";
+        $query = "SELECT r.*, u.firstname, u.lastname, u.email
+                  FROM $table r
+                  JOIN $userstable u
+                  ON r.user_id = u.id
+                  WHERE recipe_id = :id";
 
         $stmt = $conn->prepare($query);
         $recipe_id = htmlspecialchars(strip_tags($recipe_id));
@@ -79,6 +99,8 @@ class Rating {
             $rating->user_id = (int)$row["user_id"];
             $rating->rating = (int)$row["rating"];
             $rating->comment = $row["comment"];
+            $rating->user_names = $row["firstname"] . $row["lastname"];
+            $rating->user_email = $row["email"];
             $result[] = $rating;
         }
 
