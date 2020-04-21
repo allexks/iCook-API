@@ -66,7 +66,7 @@ class Recipe {
                   FROM $table r
                   JOIN $userstable u
                   ON r.user_id = u.id
-                  WHERE id = :id
+                  WHERE r.id = :id
                   LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
@@ -91,8 +91,8 @@ class Recipe {
 
         $this->fetchAllRatings();
 
-        $recipe->user_names = $row["firstname"] . $row["lastname"];
-        $recipe->user_email = $row["email"];
+        $this->user_names = $row["firstname"] . $row["lastname"];
+        $this->user_email = $row["email"];
 
         return true;
     }
@@ -111,7 +111,7 @@ class Recipe {
                   FROM $table r
                   JOIN $userstable u
                   ON r.user_id = u.id
-                  WHERE dish_id = :id";
+                  WHERE r.dish_id = :id";
 
         $stmt = $conn->prepare($query);
         $dish_id = htmlspecialchars(strip_tags($dish_id));

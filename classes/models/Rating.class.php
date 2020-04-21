@@ -43,7 +43,7 @@ class Rating {
                   FROM $table r
                   JOIN $userstable u
                   ON r.user_id = u.id
-                  WHERE id = :id
+                  WHERE r.id = :id
                   LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
@@ -78,7 +78,7 @@ class Rating {
                   FROM $table r
                   JOIN $userstable u
                   ON r.user_id = u.id
-                  WHERE recipe_id = :id";
+                  WHERE r.recipe_id = :id";
 
         $stmt = $conn->prepare($query);
         $recipe_id = htmlspecialchars(strip_tags($recipe_id));
