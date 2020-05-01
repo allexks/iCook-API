@@ -15,11 +15,10 @@ class Dish {
     public $recipes;
 
     private $conn;
-    private $db_tablename;
+    const DB_TABLENAME = "dishes";
 
     public function __construct($db) {
         $this->conn = $db;
-        $this->db_tablename = "dishes";
     }
 
     public function toArray() {
@@ -35,7 +34,10 @@ class Dish {
     }
 
     public function randomId() {
-        $query = "SELECT id FROM {$this->db_tablename} ORDER BY RAND() LIMIT 1";
+        $tablename = self::DB_TABLENAME;
+
+        $query = "SELECT id FROM $tablename ORDER BY RAND() LIMIT 1";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -46,9 +48,9 @@ class Dish {
     }
 
     public function fetch() {
-        $query = "SELECT * FROM {$this->db_tablename}
-                WHERE id = :id
-                LIMIT 0,1";
+        $tablename = self::DB_TABLENAME;
+
+        $query = "SELECT * FROM $tablename WHERE id = :id LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $this->id = htmlspecialchars(strip_tags($this->id));
@@ -75,6 +77,36 @@ class Dish {
 
     public function fetchAllRecipes() {
         $this->recipes = Recipe::fetchAllForDishId($this->conn, $this->id);
+    }
+
+    public static function fetchAllMatching($searchTerm, $conn) {
+        $tablename = self::DB_TABLENAME;
+
+        $query = "SELECT * FROM $tablename WHERE name LIKE :term";
+
+        $stmt = $conn->prepare($query);
+        $searchTerm = "%".htmlspecialchars(strip_tags($searchTerm))."%";
+        $stmt->bindParam(":term", $searchTerm);
+        $stmt->execute();
+
+        $rows_count = $stmt->rowCount();
+
+        if ($rows_count <= 0) {
+            return false;
+        }
+
+        $result = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $dish = new Dish($conn);
+            $dish->id = (int)$row["id"];
+            $dish->name = $row["name"];
+            $dish->description = $row["description"];
+            $dish->image_url = $row["image_url"];
+            $dish->recipes = []; // TODO: consider changing this
+            $result[] = $dish;
+        }
+
+        return $result;
     }
 }
 
