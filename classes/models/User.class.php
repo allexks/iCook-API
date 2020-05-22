@@ -24,11 +24,17 @@ class User {
         $tablename = self::DB_TABLENAME;
 
         $query = "INSERT INTO $tablename
-                  SET
-                      firstname = :firstname,
-                      lastname = :lastname,
-                      email = :email,
-                      password = :password";
+                    (
+                        `firstname`,
+                        `lastname`,
+                        `email`,
+                        `password`
+                    ) VALUES (
+                        :firstname,
+                        :lastname,
+                        :email,
+                        :passsword
+                    )";
 
         $stmt = $this->conn->prepare($query);
 

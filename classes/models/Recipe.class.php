@@ -56,6 +56,37 @@ class Recipe {
         return $result;
     }
 
+    public function create() {
+        $tablename = self::DB_TABLENAME;
+
+        $query = "INSERT INTO $tablename
+                    (
+                        `dish_id`,
+                        `user_id`,
+                        `duration`,
+                        `steps`
+                    ) VALUES (
+                        :dishid,
+                        :userid,
+                        :duration,
+                        :steps
+                    )";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->dish_id = htmlspecialchars(strip_tags($this->dish_id));
+        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
+        $this->duration = htmlspecialchars(strip_tags($this->duration));
+        $this->steps = htmlspecialchars(strip_tags($this->steps));
+
+        $stmt->bindParam(":dishid", $this->dish_id);
+        $stmt->bindParam(":userid", $this->user_id);
+        $stmt->bindParam(":duration", $this->duration);
+        $stmt->bindParam(":steps", $this->steps);
+
+        return $stmt->execute();
+    }
+
     public function fetch() {
         $table = self::DB_TABLENAME;
         $userstable = User::DB_TABLENAME;
