@@ -122,7 +122,7 @@ class Recipe {
 
         $this->fetchAllRatings();
 
-        $this->user_names = $row["firstname"] . $row["lastname"];
+        $this->user_names = $row["firstname"] . " " . $row["lastname"];
         $this->user_email = $row["email"];
 
         return true;
@@ -165,7 +165,7 @@ class Recipe {
             $recipe->duration = (int)$row["duration"];
             $recipe->steps = $row["steps"];
             $recipe->fetchAllRatings();
-            $recipe->user_names = $row["firstname"] . $row["lastname"];
+            $recipe->user_names = $row["firstname"] . " " . $row["lastname"];
             $recipe->user_email = $row["email"];
             $result[] = $recipe;
         }
