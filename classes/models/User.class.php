@@ -33,7 +33,7 @@ class User {
                         :firstname,
                         :lastname,
                         :email,
-                        :passsword
+                        :password
                     )";
 
         $stmt = $this->conn->prepare($query);
