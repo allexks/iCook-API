@@ -63,18 +63,18 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 400
 ### `POST /create_user`
 - Request parameters:
-    - `firstname`: string
-    - `lastname`: string|null
-    - `email`: string
-    - `password`: string
+    - `firstname`: `string`
+    - `lastname`: `string|null`
+    - `email`: `string`
+    - `password`: `string`
 - Possible status codes and responses:
     - 200: `TokenResponse`
     - 400
     - 500
 ### `POST /login`
 - Request parameters:
-    - `email`: string
-    - `password`: string
+    - `email`: `string`
+    - `password`: `string`
 - Possible status codes and responses:
     - 200: `TokenResponse`
     - 401
@@ -88,9 +88,9 @@ Note that there is always a possibility for an HTTP response with a status code 
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
 - Request parameters:
-    - `recipe_id`: int
-    - `rating`: int|null
-    - `comment`: string
+    - `recipe_id`: `int`
+    - `rating`: `int|null`
+    - `comment`: `string`
 - Possible status codes and responses:
     - 200
     - 400
@@ -100,9 +100,9 @@ Note that there is always a possibility for an HTTP response with a status code 
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
 - Request parameters:
-    - `dish_id`: int
-    - `steps`: string
-    - `duration`: int|null
+    - `dish_id`: `int`
+    - `steps`: `string`
+    - `duration`: `int|null`
 - Possible status codes and responses:
     - 200
     - 400
@@ -112,10 +112,10 @@ Note that there is always a possibility for an HTTP response with a status code 
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
 - Request parameters:
-    - `email`: string
-    - `password`: string|null
-    - `firstname`: string|null
-    - `lastname`: string|null
+    - `email`: `string`
+    - `password`: `string|null`
+    - `firstname`: `string|null`
+    - `lastname`: `string|null`
 - Possible status codes and responses:
     - 200: `TokenResponse`
     - 401
