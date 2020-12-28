@@ -41,6 +41,7 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 200: `DataResponse<Dish>`
     - 400
     - 404
+
 ### `GET /rating/{id}`
 - Request parameters:
     - `id`: The id of the rating.
@@ -48,6 +49,7 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 200: `DataResponse<Rating>`
     - 400
     - 404
+
 ### `GET /recipe/{id}`
 - Request parameters:
     - `id`: The id of the recipe.
@@ -55,12 +57,14 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 200: `DataResponse<Recipe>`
     - 400
     - 404
+
 ### `GET /search/{query}`
 - Request parameters:
     - `query`: The text to search for in dishes' names.
 - Possible status codes and responses:
     - 200: `DataResponse<[Dish]>`
     - 400
+
 ### `POST /create_user`
 - Request parameters:
     - `firstname`: `string`
@@ -71,6 +75,7 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 200: `TokenResponse`
     - 400
     - 500
+
 ### `POST /login`
 - Request parameters:
     - `email`: `string`
@@ -78,12 +83,14 @@ Note that there is always a possibility for an HTTP response with a status code 
 - Possible status codes and responses:
     - 200: `TokenResponse`
     - 401
+
 ### `POST /quick_recommendation`
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
 - Possible status codes and responses:
     - 200: `DataResponse<Dish>`
     - 401
+
 ### `POST /rating`
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
@@ -96,6 +103,7 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 400
     - 401
     - 500
+
 ### `POST /recipe`
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
@@ -108,6 +116,7 @@ Note that there is always a possibility for an HTTP response with a status code 
     - 400
     - 401
     - 500
+
 ### `POST /update_user`
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
@@ -119,6 +128,7 @@ Note that there is always a possibility for an HTTP response with a status code 
 - Possible status codes and responses:
     - 200: `TokenResponse`
     - 401
+
 ### `POST /validate_token`
 - Required HTTP headers:
     - `Authorization: Bearer X`, where `X` is the obtained access token.
