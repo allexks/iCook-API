@@ -102,7 +102,7 @@ class Dish {
             $dish->name = $row["name"];
             $dish->description = $row["description"];
             $dish->image_url = $row["image_url"];
-            $dish->recipes = []; // TODO: consider changing this
+            $dish->fetchAllRecipes();
             $result[] = $dish;
         }
 
